@@ -20,8 +20,7 @@ cat <<EOF > start_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi-2-8-4
 ./SRBMiner-MULTI \
---algorithm nxlhash --gpu --pool eu.mining4people.com:3356 --wallet nexellia:qqdqky7ktz63zvrnj0gtpwq7te3x02324a9jasa3xk9wk8v7vuf8q6hw9ka6r --password vastworker01 \
---algorithm qrl --cpu --pool de.qrl.herominers.com:1166 --wallet Q0105005459440c331f0c37bcd7f557ef1143db54d8fca2945f501cba45b44fbac4bc0817d9bc32 --password vastworker02
+--algorithm nxlhash --gpu --pool eu.mining4people.com:3356 --wallet nexellia:qqdqky7ktz63zvrnj0gtpwq7te3x02324a9jasa3xk9wk8v7vuf8q6hw9ka6r --password vastworker01
 EOF
 
 # Start-Skript ausführbar machen
