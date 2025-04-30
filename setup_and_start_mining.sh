@@ -18,11 +18,24 @@ sudo apt install -y nvidia-cuda-toolkit
 wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.8.4/SRBMiner-Multi-2-8-4-Linux.tar.gz
 tar -xvzf SRBMiner-Multi-2-8-4-Linux.tar.gz
 
-# Startskript für GPU Mining erstellen
+# Startskript für GPU Mining erstellen (mit interaktiver Pool-Auswahl)
 cat <<EOF > start_gpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi-2-8-4
-./SRBMiner-MULTI --algorithm nxlhash --gpu --pool eu.mining4people.com:3356 --wallet nexellia:qqdqky7ktz63zvrnj0gtpwq7te3x02324a9jasa3xk9wk8v7vuf8q6hw9ka6r --password vastworker01
+
+echo "Welchen Coin willst du minen?"
+select pool in "Nexellia" "Pyrin"; do
+    case \$pool in
+        Nexellia)
+            ./SRBMiner-MULTI --algorithm nxlhash --gpu --pool eu.mining4people.com:3356 --wallet nexellia:qqdqky7ktz63zvrnj0gtpwq7te3x02324a9jasa3xk9wk8v7vuf8q6hw9ka6r --password vastworker01
+            break
+            ;;
+        Pyrin)
+            ./SRBMiner-MULTI --algorithm pyrinhashv2 --gpu --pool nushypool.com:40008 --wallet pyrin:qzl5sr3vs4kldqeru9frd7dgna98eh7m6zc3lxv3nhg0lpggf5gp2w0xdcxyx.rig1
+            break
+            ;;
+    esac
+done
 EOF
 
 chmod +x start_gpu_mining.sh
@@ -37,7 +50,7 @@ cd xmrig
 mkdir build
 cd build
 cmake ..
-make -j$(nproc)
+make -j"$(nproc)"
 
 # Startskript für CPU Mining erstellen
 cat <<EOF > start_cpu_mining.sh
@@ -61,5 +74,5 @@ screen -dmS mining_cpu ./start_cpu_mining.sh
 # Hinweis an den Benutzer
 echo "✅ GPU-Mining läuft jetzt in Screen 'mining_gpu'."
 echo "✅ CPU-Mining läuft jetzt in Screen 'mining_cpu'."
-echo "👉 Mit 'screen -r mining_gpu' oder 'screen -r mining_cpu' kannst du reinschauen."
-echo "👉 Mit CTRL+A und D kannst du jeweils wieder rausgehen."
+echo "🔍 Mit 'screen -r mining_gpu' oder 'screen -r mining_cpu' kannst du reinschauen."
+echo "✅ Mit CTRL+A und D kannst du jeweils wieder rausgehen."
