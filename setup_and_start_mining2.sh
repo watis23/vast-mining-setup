@@ -14,7 +14,7 @@ sudo apt install -y nvidia-cuda-toolkit
 # lolMiner (GPU Miner für Pyrin) installieren
 # ------------------------------------------
 
-wget https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.83/lolMiner_v1.83_Lin64.tar.gz
+wget https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.95a/lolMiner_v1.95a_Lin64.tar.gz
 mkdir -p lolminer && tar -xvzf lolMiner_v1.83_Lin64.tar.gz -C lolminer --strip-components=1
 
 # Startskript für GPU Mining (Pyrin)
