@@ -21,7 +21,7 @@ mkdir -p lolminer && tar -xvzf lolMiner_v1.95a_Lin64.tar.gz -C lolminer --strip-
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
 cd ~/lolminer
-./lolMiner --algo OCTOPUS --pool de.conflux.herominers.com:1170 --user cfx:aanb6m3fdn5cphsxegtrjttth59svcssyjpf3jtvwy
+./lolMiner --algo OCTOPUS --pool de.conflux.herominers.com:1170 --user solo:cfx:aanb6m3fdn5cphsxegtrjttth59svcssyjpf3jtvwy
 EOF
 chmod +x ~/start_gpu_mining.sh
 
