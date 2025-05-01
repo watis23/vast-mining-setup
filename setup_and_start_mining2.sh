@@ -21,7 +21,7 @@ mkdir -p lolminer && tar -xvzf lolMiner_v1.83_Lin64.tar.gz -C lolminer --strip-c
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
 cd ~/lolminer
-./lolMiner --algo PYRIN --pool nushypool.com:40008 --user pyrin:qzl5sr3vs4kldqeru9frd7dgna98eh7m6zc3lxv3nhg0lpggf5gp2w0xdcxyx.rig1
+./lolMiner --algo PYRINV2 --pool nushypool.com:40008 --user pyrin:qzl5sr3vs4kldqeru9frd7dgna98eh7m6zc3lxv3nhg0lpggf5gp2w0xdcxyx.rig1
 EOF
 chmod +x ~/start_gpu_mining.sh
 
