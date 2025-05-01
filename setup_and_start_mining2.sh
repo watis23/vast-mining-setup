@@ -2,7 +2,7 @@
 
 # Update & Tools installieren
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y wget curl nano screen ocl-icd-opencl-dev clinfo build-essential cmake libuv1-dev libssl-dev libhwloc-dev git
+sudo apt install -y wget curl nano screen ocl-icd-opencl-dev clinfo build-essential cmake libuv1-dev libssl-dev libhwloc-dev unzip
 
 # OpenCL installieren
 sudo apt install -y ocl-icd-libopencl1 opencl-headers clinfo
@@ -11,38 +11,18 @@ sudo apt install -y ocl-icd-libopencl1 opencl-headers clinfo
 sudo apt install -y nvidia-cuda-toolkit
 
 # ------------------------------------------
-# SRBMiner Multi (GPU Miner) installieren
+# lolMiner (GPU Miner) installieren
 # ------------------------------------------
 
-# SRBMiner herunterladen
-wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.8.4/SRBMiner-Multi-2-8-4-Linux.tar.gz
-tar -xvzf SRBMiner-Multi-2-8-4-Linux.tar.gz
+# lolMiner herunterladen und entpacken
+wget https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.83/lolMiner_v1.83_Lin64.tar.gz
+mkdir -p lolminer && tar -xvzf lolMiner_v1.83_Lin64.tar.gz -C lolminer --strip-components=1
 
-# Pyrin Miner installieren (PyRMiner)
-git clone https://github.com/pyrin123/PyRMiner.git
-cd PyRMiner
-chmod +x pyrminer
-cd ..
-
-# Startskript für GPU Mining erstellen (mit interaktiver Pool-Auswahl)
+# Startskript für GPU Mining (Pyrin) erstellen
 cat <<EOF > start_gpu_mining.sh
 #!/bin/bash
-
-echo "Welchen Coin willst du minen?"
-select pool in "Nexellia" "Pyrin"; do
-    case \$pool in
-        Nexellia)
-            cd ~/SRBMiner-Multi-2-8-4
-            ./SRBMiner-MULTI --algorithm nxlhash --gpu --pool eu.mining4people.com:3356 --wallet nexellia:qqdqky7ktz63zvrnj0gtpwq7te3x02324a9jasa3xk9wk8v7vuf8q6hw9ka6r --password vastworker01
-            break
-            ;;
-        Pyrin)
-            cd ~/PyRMiner
-            ./pyrminer -o stratum+tcp://nushypool.com:40008 -u pyrin:qzl5sr3vs4kldqeru9frd7dgna98eh7m6zc3lxv3nhg0lpggf5gp2w0xdcxyx.rig1
-            break
-            ;;
-    esac
-done
+cd ~/lolminer
+./lolMiner --algo PYRINHASH --pool nushypool.com:40008 --user pyrin:qzl5sr3vs4kldqeru9frd7dgna98eh7m6zc3lxv3nhg0lpggf5gp2w0xdcxyx.rig1
 EOF
 
 chmod +x start_gpu_mining.sh
@@ -51,13 +31,12 @@ chmod +x start_gpu_mining.sh
 # XMRig (CPU Miner) installieren
 # ------------------------------------------
 
-# XMRig herunterladen
 git clone https://github.com/xmrig/xmrig.git
 cd xmrig
 mkdir build
 cd build
 cmake ..
-make -j"$(nproc)"
+make -j\$(nproc)
 
 # Startskript für CPU Mining erstellen
 cat <<EOF > start_cpu_mining.sh
@@ -79,7 +58,7 @@ screen -dmS mining_gpu ./start_gpu_mining.sh
 screen -dmS mining_cpu ./start_cpu_mining.sh
 
 # Hinweis an den Benutzer
-echo "✅ GPU-Mining läuft jetzt in Screen 'mining_gpu'."
-echo "✅ CPU-Mining läuft jetzt in Screen 'mining_cpu'."
+echo "✅ GPU-Mining (Pyrin) läuft jetzt in Screen 'mining_gpu'."
+echo "✅ CPU-Mining (QRL) läuft jetzt in Screen 'mining_cpu'."
 echo "🔍 Mit 'screen -r mining_gpu' oder 'screen -r mining_cpu' kannst du reinschauen."
 echo "✅ Mit CTRL+A und D kannst du jeweils wieder rausgehen."
