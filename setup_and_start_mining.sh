@@ -2,7 +2,7 @@
 
 # System vorbereiten
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y build-essential cmake git libuv1-dev libssl-dev libhwloc-dev screen nano wget curl ocl-icd-opencl-dev clinfo unzip automake autoconf libtool pkg-config mailutils
+sudo apt install -y build-essential cmake git libuv1-dev libssl-dev libhwloc-dev screen nano wget curl ocl-icd-opencl-dev clinfo unzip automake autoconf libtool pkg-config
 
 # CUDA für GPU-Mining (NVIDIA)
 sudo apt install -y nvidia-cuda-toolkit
@@ -13,6 +13,9 @@ sudo apt install -y nvidia-cuda-toolkit
 
 wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.8.4/SRBMiner-Multi-2-8-4-Linux.tar.gz
 mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-4-Linux.tar.gz -C SRBMiner-Multi --strip-components=1
+
+# Discord Webhook definieren (hier als Platzhalter, bitte ersetzen)
+DISCORD_WEBHOOK="https://discord.com/api/webhooks/DEIN_WEBHOOK_LINK"
 
 # Startskript für GPU Mining (Nexellia)
 cat <<EOF > ~/start_gpu_mining.sh
@@ -33,13 +36,14 @@ chmod +x ~/start_cpu_mining.sh
 # Watchdog-Skript zur Überwachung von GPU-Miner
 cat <<EOF > ~/watchdog_gpu.sh
 #!/bin/bash
+DISCORD_WEBHOOK="https://discord.com/api/webhooks/DEIN_WEBHOOK_LINK"
 if pgrep -f "SRBMiner-MULTI.*--gpu" > /dev/null
 then
   echo "GPU-Miner läuft bereits."
 else
   echo "GPU-Miner NICHT gefunden. Starte neu..."
   screen -dmS mining_gpu ~/start_gpu_mining.sh
-  echo "SRBMiner GPU-Miner wurde automatisch neu gestartet." | mail -s "⚠️ GPU-Miner Watchdog: Neustart durchgeführt" -email-
+  curl -H "Content-Type: application/json" -X POST -d '{"content": "⚠️ GPU-Miner wurde automatisch neu gestartet."}' \$DISCORD_WEBHOOK
 fi
 EOF
 chmod +x ~/watchdog_gpu.sh
@@ -53,8 +57,8 @@ screen -dmS mining_gpu ~/start_gpu_mining.sh
 # Start CPU Mining in Screen
 screen -dmS mining_cpu ~/start_cpu_mining.sh
 
-# Erfolgs-Statusmail senden
-echo "✅ Vast.ai Mining Setup abgeschlossen. GPU & CPU-Miner wurden gestartet." | mail -s "✅ Mining Setup bereit" -EMAIL-
+# Erfolgsnachricht an Discord senden
+curl -H "Content-Type: application/json" -X POST -d '{"content": "✅ Vast.ai Mining Setup abgeschlossen. GPU & CPU-Miner wurden gestartet."}' $DISCORD_WEBHOOK
 
 # Hinweis für den Benutzer
 echo "✅ GPU-Mining (Nexellia) läuft in Screen 'mining_gpu'"
