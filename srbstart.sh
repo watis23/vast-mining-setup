@@ -26,7 +26,7 @@ chmod +x ~/start_gpu_mining.sh
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --algorithm yescrypt --cpu --pool eu-01.miningrigrentals.com:3333 --wallet Pellkopf.315725 --password x
+./SRBMiner-MULTI --algorithm yespower --pool eu-01.miningrigrentals.com:3333 --wallet Pellkopf.308836 --password x
 EOF
 chmod +x ~/start_cpu_mining.sh
 
