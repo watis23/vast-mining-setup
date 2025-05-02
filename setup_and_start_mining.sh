@@ -1,65 +1,64 @@
 #!/bin/bash
 
-# Update & Tools installieren
+# System vorbereiten
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y wget curl nano screen ocl-icd-opencl-dev clinfo build-essential cmake libuv1-dev libssl-dev libhwloc-dev
+sudo apt install -y build-essential cmake git libuv1-dev libssl-dev libhwloc-dev screen nano wget curl ocl-icd-opencl-dev clinfo unzip automake autoconf libtool pkg-config mailutils
 
-# OpenCL installieren
-sudo apt install -y ocl-icd-libopencl1 opencl-headers clinfo
-
-# CUDA Toolkit nachinstallieren (optional, falls nötig)
+# CUDA für GPU-Mining (NVIDIA)
 sudo apt install -y nvidia-cuda-toolkit
 
 # ------------------------------------------
-# SRBMiner Multi (GPU Miner) installieren
+# SRBMiner Multi (GPU + CPU Miner) installieren
 # ------------------------------------------
 
-# SRBMiner herunterladen
 wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.8.4/SRBMiner-Multi-2-8-4-Linux.tar.gz
-tar -xvzf SRBMiner-Multi-2-8-4-Linux.tar.gz
+mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-4-Linux.tar.gz -C SRBMiner-Multi --strip-components=1
 
-# Startskript für GPU Mining erstellen
-cat <<EOF > start_gpu_mining.sh
+# Startskript für GPU Mining (Nexellia)
+cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
-cd ~/SRBMiner-Multi-2-8-4
+cd ~/SRBMiner-Multi
 ./SRBMiner-MULTI --algorithm nxlhash --gpu --pool eu.mining4people.com:3356 --wallet nexellia:qqdqky7ktz63zvrnj0gtpwq7te3x02324a9jasa3xk9wk8v7vuf8q6hw9ka6r --password vastworker01
 EOF
+chmod +x ~/start_gpu_mining.sh
 
-chmod +x start_gpu_mining.sh
-
-# ------------------------------------------
-# XMRig (CPU Miner) installieren
-# ------------------------------------------
-
-# XMRig herunterladen
-git clone https://github.com/xmrig/xmrig.git
-cd xmrig
-mkdir build
-cd build
-cmake ..
-make -j$(nproc)
-
-# Startskript für CPU Mining erstellen
-cat <<EOF > start_cpu_mining.sh
+# Startskript für CPU Mining (Yescrypt z. B. Yenten, Myriadcoin, etc.)
+cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
-cd ~/xmrig/build
-./xmrig -o de.qrl.herominers.com:1166 -u Q0105005459440c331f0c37bcd7f557ef1143db54d8fca2945f501cba45b44fbac4bc0817d9bc32 -p vastworker02 -a rx/0 -k
+cd ~/SRBMiner-Multi
+./SRBMiner-MULTI --algorithm yescrypt --cpu --pool de.qrl.herominers.com:1166 --wallet Q0105005459440c331f0c37bcd7f557ef1143db54d8fca2945f501cba45b44fbac4bc0817d9bc32 --password srbworker01
 EOF
+chmod +x ~/start_cpu_mining.sh
 
-chmod +x start_cpu_mining.sh
+# Watchdog-Skript zur Überwachung von GPU-Miner
+cat <<EOF > ~/watchdog_gpu.sh
+#!/bin/bash
+if pgrep -f "SRBMiner-MULTI.*--gpu" > /dev/null
+then
+  echo "GPU-Miner läuft bereits."
+else
+  echo "GPU-Miner NICHT gefunden. Starte neu..."
+  screen -dmS mining_gpu ~/start_gpu_mining.sh
+  echo "SRBMiner GPU-Miner wurde automatisch neu gestartet." | mail -s "⚠️ GPU-Miner Watchdog: Neustart durchgeführt" sander.chr@live.de
+fi
+EOF
+chmod +x ~/watchdog_gpu.sh
 
-# ------------------------------------------
-# Beide Miner automatisch starten in Screens
-# ------------------------------------------
+# Cronjob einrichten (alle 5 Minuten Watchdog ausführen)
+(crontab -l 2>/dev/null; echo "*/5 * * * * /root/watchdog_gpu.sh") | crontab -
 
-# GPU Mining starten in Screen-Session
-screen -dmS mining_gpu ./start_gpu_mining.sh
+# Start GPU Mining in Screen
+screen -dmS mining_gpu ~/start_gpu_mining.sh
 
-# CPU Mining starten in Screen-Session
-screen -dmS mining_cpu ./start_cpu_mining.sh
+# Start CPU Mining in Screen
+screen -dmS mining_cpu ~/start_cpu_mining.sh
 
-# Hinweis an den Benutzer
-echo "✅ GPU-Mining läuft jetzt in Screen 'mining_gpu'."
-echo "✅ CPU-Mining läuft jetzt in Screen 'mining_cpu'."
+# Erfolgs-Statusmail senden
+echo "✅ Vast.ai Mining Setup abgeschlossen. GPU & CPU-Miner wurden gestartet." | mail -s "✅ Mining Setup bereit" -EMAIL-
+
+# Hinweis für den Benutzer
+echo "✅ GPU-Mining (Nexellia) läuft in Screen 'mining_gpu'"
+echo "✅ CPU-Mining (Yescrypt via SRBMiner) läuft in Screen 'mining_cpu'"
 echo "👉 Mit 'screen -r mining_gpu' oder 'screen -r mining_cpu' kannst du reinschauen."
-echo "👉 Mit CTRL+A und D kannst du jeweils wieder rausgehen."
+echo "✅ Mit CTRL+A und D kannst du die Screens verlassen."
+
