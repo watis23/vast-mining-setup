@@ -8,14 +8,14 @@ sudo apt install -y build-essential cmake git libuv1-dev libssl-dev libhwloc-dev
 sudo apt install -y nvidia-cuda-toolkit
 
 # ------------------------------------------
-# SRBMiner Multi (GPU + CPU Miner) installieren
+# SRBMiner Multi (GPU Miner) installieren
 # ------------------------------------------
 
 wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.8.4/SRBMiner-Multi-2-8-4-Linux.tar.gz
 mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-4-Linux.tar.gz -C SRBMiner-Multi --strip-components=1
 
 # Discord Webhook definieren (hier als Platzhalter, bitte ersetzen)
-DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8v4HeETQxqfAbh5qraJ7Y5oZwDuLL9cwHYdBg-cmUOaN5zkA0Bq4Cu46qAS"
+DISCORD_WEBHOOK="https://discord.com/api/webhooks/DEIN_WEBHOOK_LINK"
 
 # Startskript für GPU Mining (Nexellia)
 cat <<EOF > ~/start_gpu_mining.sh
@@ -25,18 +25,28 @@ cd ~/SRBMiner-Multi
 EOF
 chmod +x ~/start_gpu_mining.sh
 
-# Startskript für CPU Mining (Yescrypt z. B. Yenten, Myriadcoin, etc.)
+# ------------------------------------------
+# XMRig (CPU Miner) installieren
+# ------------------------------------------
+
+git clone https://github.com/xmrig/xmrig.git
+cd xmrig
+mkdir build && cd build
+cmake ..
+make -j$(nproc)
+
+# Startskript für CPU Mining (XMRig)
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
-cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --algorithm yescrypt --cpu --pool de.qrl.herominers.com:1166 --wallet Q0105005459440c331f0c37bcd7f557ef1143db54d8fca2945f501cba45b44fbac4bc0817d9bc32 --password srbworker01
+cd ~/xmrig/build
+./xmrig -o eu-de01.miningrigrentals.com:3333 -u watis23.351350 -p vastworker02 -a rx/0 -k
 EOF
 chmod +x ~/start_cpu_mining.sh
 
 # Watchdog-Skript zur Überwachung von GPU-Miner
 cat <<EOF > ~/watchdog_gpu.sh
 #!/bin/bash
-DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8v4HeETQxqfAbh5qraJ7Y5oZwDuLL9cwHYdBg-cmUOaN5zkA0Bq4Cu46qAS"
+DISCORD_WEBHOOK="https://discord.com/api/webhooks/DEIN_WEBHOOK_LINK"
 if pgrep -f "SRBMiner-MULTI.*--gpu" > /dev/null
 then
   echo "GPU-Miner läuft bereits."
@@ -62,6 +72,6 @@ curl -H "Content-Type: application/json" -X POST -d '{"content": "✅ Vast.ai Mi
 
 # Hinweis für den Benutzer
 echo "✅ GPU-Mining (Nexellia) läuft in Screen 'mining_gpu'"
-echo "✅ CPU-Mining (Yescrypt via SRBMiner) läuft in Screen 'mining_cpu'"
+echo "✅ CPU-Mining (RandomX via XMRig) läuft in Screen 'mining_cpu'"
 echo "👉 Mit 'screen -r mining_gpu' oder 'screen -r mining_cpu' kannst du reinschauen."
 echo "✅ Mit CTRL+A und D kannst du die Screens verlassen."
