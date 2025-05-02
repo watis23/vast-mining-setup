@@ -39,7 +39,7 @@ then
 else
   echo "GPU-Miner NICHT gefunden. Starte neu..."
   screen -dmS mining_gpu ~/start_gpu_mining.sh
-  echo "SRBMiner GPU-Miner wurde automatisch neu gestartet." | mail -s "⚠️ GPU-Miner Watchdog: Neustart durchgeführt" sander.chr@live.de
+  echo "SRBMiner GPU-Miner wurde automatisch neu gestartet." | mail -s "⚠️ GPU-Miner Watchdog: Neustart durchgeführt" -email-
 fi
 EOF
 chmod +x ~/watchdog_gpu.sh
