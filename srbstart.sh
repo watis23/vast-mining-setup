@@ -26,7 +26,7 @@ chmod +x ~/start_gpu_mining.sh
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --algorithm yespower --pool stratum.novagrid.online:3160 --wallet wv1qwtdm5lxzdjchjckld338d8gldau4tysg6rtgta --password x
+./SRBMiner-MULTI --disable-gpu --algorithm yespower --pool stratum.novagrid.online:3160 --wallet wv1qwtdm5lxzdjchjckld338d8gldau4tysg6rtgta --password x
 EOF
 chmod +x ~/start_cpu_mining.sh
 
