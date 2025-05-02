@@ -15,7 +15,7 @@ wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.8.4/SRBMiner
 mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-4-Linux.tar.gz -C SRBMiner-Multi --strip-components=1
 
 # Discord Webhook definieren (hier als Platzhalter, bitte ersetzen)
-DISCORD_WEBHOOK="https://discord.com/api/webhooks/DEIN_WEBHOOK_LINK"
+DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8v4HeETQxqfAbh5qraJ7Y5oZwDuLL9cwHYdBg-cmUOaN5zkA0Bq4Cu46qAS"
 
 # Startskript für GPU Mining (Nexellia)
 cat <<EOF > ~/start_gpu_mining.sh
@@ -36,7 +36,7 @@ chmod +x ~/start_cpu_mining.sh
 # Watchdog-Skript zur Überwachung von GPU-Miner
 cat <<EOF > ~/watchdog_gpu.sh
 #!/bin/bash
-DISCORD_WEBHOOK="https://discord.com/api/webhooks/DEIN_WEBHOOK_LINK"
+DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8v4HeETQxqfAbh5qraJ7Y5oZwDuLL9cwHYdBg-cmUOaN5zkA0Bq4Cu46qAS"
 if pgrep -f "SRBMiner-MULTI.*--gpu" > /dev/null
 then
   echo "GPU-Miner läuft bereits."
