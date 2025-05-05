@@ -12,8 +12,8 @@ sudo apt install -y nvidia-cuda-toolkit
 # ------------------------------------------
 
 cd ~
-wget https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.82/lolMiner_v1.82_Lin64.tar.gz
-mkdir -p lolMiner && tar -xvzf lolMiner_v1.82_Lin64.tar.gz -C lolMiner --strip-components=1
+wget https://github.com/Lolliedieb/lolMiner-releases/releases/download/1.95a/lolMiner_v1.95a_Lin64.tar.gz
+mkdir -p lolMiner && tar -xvzf lolMiner_v1.95a_Lin64.tar.gz -C lolMiner --strip-components=1
 
 # Discord Webhook definieren (hier als Platzhalter, bitte ersetzen)
 DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8v4HeETQxqfAbh5qraJ7Y5oZwDuLL9cwHYdBg-cmUOaN5zkA0Bq4Cu46qAS"
