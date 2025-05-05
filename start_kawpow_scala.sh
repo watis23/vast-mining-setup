@@ -29,7 +29,7 @@ chmod +x ~/start_gpu_mining.sh
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --disable-gpu --algorithm panthera --pool stratum.aikapool.com:5940 --wallet Pellkopf.1 --password x
+./SRBMiner-MULTI --disable-gpu --algorithm panthera --pool stratum.aikapool.com:5940 --wallet xxx --password x
 EOF
 chmod +x ~/start_cpu_mining.sh
 
