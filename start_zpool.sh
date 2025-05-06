@@ -28,7 +28,7 @@ chmod +x ~/start_gpu_mining.sh
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --disable-gpu --algorithm minotaurx --pool minotaurx.eu.mine.zpool.ca:7019 --wallet wv1qwtdm5lxzdjchjckld338d8gldau4tysg6rtgta --password c=DOGE
+./SRBMiner-MULTI --disable-gpu --algorithm minotaurx --pool minotaurx.eu.mine.zpool.ca:7019 --wallet D8EvMrnCARBqi2gQrRy7nrZoPkTUBo4K7S --password c=DOGE
 EOF
 chmod +x ~/start_cpu_mining.sh
 
