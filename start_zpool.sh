@@ -10,7 +10,6 @@ sudo apt install -y nvidia-cuda-toolkit
 # ------------------------------------------
 # SRBMiner Multi (GPU Miner) installieren
 # ------------------------------------------
-
 wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.8.4/SRBMiner-Multi-2-8-4-Linux.tar.gz
 mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-4-Linux.tar.gz -C SRBMiner-Multi --strip-components=1
 
@@ -28,10 +27,9 @@ chmod +x ~/start_gpu_mining.sh
 # ------------------------------------------
 # cpuminer-opt-rplant (CPU Miner) installieren
 # ------------------------------------------
-
 cd ~
 wget https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.43/cpuminer-opt-linux.tar.gz
-mkdir -p cpuminer-opt && tar -xvzf cpuminer-opt-linux.tar.gz -C cpuminer-opt --strip-components=1
+mkdir -p cpuminer-opt && tar -xvzf cpuminer-opt-linux.tar.gz -C cpuminer-opt
 
 # Startskript für CPU Mining (zpool qubit)
 cat <<EOF > ~/start_cpu_mining.sh
@@ -44,7 +42,6 @@ chmod +x ~/start_cpu_mining.sh
 # ------------------------------------------
 # Watchdog für beide Miner
 # ------------------------------------------
-
 cat <<EOF > ~/watchdog_all.sh
 #!/bin/bash
 DISCORD_WEBHOOK="$DISCORD_WEBHOOK"
@@ -68,20 +65,21 @@ if [ \$RESTARTED -eq 0 ]; then
   echo "✅ Beide Miner laufen ordnungsgemäß."
 fi
 EOF
-
 chmod +x ~/watchdog_all.sh
 
-# Cronjob einrichten
+# Cronjob einrichten (alle 5 Minuten Watchdog ausführen)
 (crontab -l 2>/dev/null; echo "*/5 * * * * /root/watchdog_all.sh") | crontab -
 
-# Miner starten
+# Start GPU Mining in Screen
 screen -dmS mining_gpu ~/start_gpu_mining.sh
+
+# Start CPU Mining in Screen
 screen -dmS mining_cpu ~/start_cpu_mining.sh
 
-# Info an Discord senden
+# Erfolgsnachricht an Discord senden
 curl -H "Content-Type: application/json" -X POST -d '{"content": "✅ Vast.ai Mining Setup abgeschlossen. GPU (SRBMiner) & CPU (cpuminer-opt-rplant) wurden gestartet."}' $DISCORD_WEBHOOK
 
-# Hinweise für den Benutzer
+# Hinweis für den Benutzer
 echo "✅ GPU-Mining (meowpow) läuft in Screen 'mining_gpu'"
 echo "✅ CPU-Mining (qubit via cpuminer-opt-rplant) läuft in Screen 'mining_cpu'"
 echo "👉 Mit 'screen -r mining_gpu' oder 'screen -r mining_cpu' kannst du reinschauen."
