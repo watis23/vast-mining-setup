@@ -20,28 +20,19 @@ DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --algorithm meowpow --gpu --pool meowpow.eu.mine.zpool.ca:1327 --wallet D8EvMrnCARBqi2gQrRy7nrZoPkTUBo4K7S --password c=DOGE
+./SRBMiner-MULTI --algorithm phihash --gpu --pool phihash.eu.mine.zpool.ca:1329 --wallet D8EvMrnCARBqi2gQrRy7nrZoPkTUBo4K7S --password c=DOGE
 EOF
 chmod +x ~/start_gpu_mining.sh
 
-# ------------------------------------------
-# cpuminer-opt-rplant (CPU Miner) installieren
-# ------------------------------------------
-cd ~
-wget https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.43/cpuminer-opt-linux.tar.gz
-mkdir -p cpuminer-opt && tar -xvzf cpuminer-opt-linux.tar.gz -C cpuminer-opt
-
-# Startskript für CPU Mining (zpool qubit)
+# Startskript für CPU Mining (minotaurx)
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
-cd ~/cpuminer-opt
-./cpuminer-avx2 --algo qubit --url stratum+tcp://qubit.eu.mine.zpool.ca:4733 --user D8EvMrnCARBqi2gQrRy7nrZoPkTUBo4K7S --pass c=DOGE
+cd ~/SRBMiner-Multi
+./SRBMiner-MULTI --disable-gpu --algorithm minotaurx --pool minotaurx.eu.mine.zpool.ca:7019 --wallet wv1qwtdm5lxzdjchjckld338d8gldau4tysg6rtgta --password c=DOGE
 EOF
 chmod +x ~/start_cpu_mining.sh
 
-# ------------------------------------------
 # Watchdog für beide Miner
-# ------------------------------------------
 cat <<EOF > ~/watchdog_all.sh
 #!/bin/bash
 DISCORD_WEBHOOK="$DISCORD_WEBHOOK"
@@ -54,7 +45,7 @@ if ! pgrep -f "SRBMiner-MULTI.*--gpu" > /dev/null; then
   RESTARTED=1
 fi
 
-if ! pgrep -f "cpuminer-avx2.*--algo qubit" > /dev/null; then
+if ! pgrep -f "SRBMiner-MULTI.*--disable-gpu" > /dev/null; then
   echo "CPU-Miner NICHT gefunden. Starte neu..."
   screen -dmS mining_cpu ~/start_cpu_mining.sh
   curl -H "Content-Type: application/json" -X POST -d '{"content": "⚠️ CPU-Miner wurde automatisch neu gestartet."}' \$DISCORD_WEBHOOK
@@ -77,10 +68,10 @@ screen -dmS mining_gpu ~/start_gpu_mining.sh
 screen -dmS mining_cpu ~/start_cpu_mining.sh
 
 # Erfolgsnachricht an Discord senden
-curl -H "Content-Type: application/json" -X POST -d '{"content": "✅ Vast.ai Mining Setup abgeschlossen. GPU (SRBMiner) & CPU (cpuminer-opt-rplant) wurden gestartet."}' $DISCORD_WEBHOOK
+curl -H "Content-Type: application/json" -X POST -d '{"content": "✅ Vast.ai Mining Setup abgeschlossen. GPU & CPU (SRBMiner) wurden gestartet."}' $DISCORD_WEBHOOK
 
 # Hinweis für den Benutzer
-echo "✅ GPU-Mining (meowpow) läuft in Screen 'mining_gpu'"
-echo "✅ CPU-Mining (qubit via cpuminer-opt-rplant) läuft in Screen 'mining_cpu'"
+echo "✅ GPU-Mining (Nexellia via SRBMiner) läuft in Screen 'mining_gpu'"
+echo "✅ CPU-Mining (Yescrypt via SRBMiner) läuft in Screen 'mining_cpu'"
 echo "👉 Mit 'screen -r mining_gpu' oder 'screen -r mining_cpu' kannst du reinschauen."
 echo "✅ Mit CTRL+A und D kannst du die Screens verlassen."
