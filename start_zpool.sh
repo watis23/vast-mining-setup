@@ -21,7 +21,7 @@ DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --algorithm meopow --gpu --pool meowpow.eu.mine.zpool.ca:1327 --wallet D8EvMrnCARBqi2gQrRy7nrZoPkTUBo4K7S --password c=DOGE
+./SRBMiner-MULTI --algorithm meowpow --gpu --pool meowpow.eu.mine.zpool.ca:1327 --wallet D8EvMrnCARBqi2gQrRy7nrZoPkTUBo4K7S --password c=DOGE
 EOF
 chmod +x ~/start_gpu_mining.sh
 
