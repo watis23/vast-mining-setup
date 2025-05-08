@@ -2,35 +2,33 @@
 
 # System vorbereiten
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y build-essential cmake git libuv1-dev libssl-dev libhwloc-dev screen nano wget curl ocl-icd-opencl-dev clinfo unzip automake autoconf libtool pkg-config
+sudo apt install -y build-essential cmake git libuv1-dev libssl-dev libhwloc-dev screen nano wget curl unzip ocl-icd-opencl-dev clinfo
 
 # CUDA für GPU-Mining (NVIDIA)
 sudo apt install -y nvidia-cuda-toolkit
 
 # ------------------------------------------
-# MiniZ Miner (für Equihash 192,7)
+# GMiner (für Equihash192_7)
 # ------------------------------------------
-
-wget https://miniz.cc/releases/v2.2c/miniz-linux-v2.2c.tar.gz -O miniz.tar.gz
-mkdir -p MiniZ
-tar -xvzf miniz.tar.gz -C MiniZ --strip-components=1
-chmod +x MiniZ/miniz
+cd ~
+wget https://github.com/develsoftware/GMinerRelease/releases/download/3.42/gminer_3_42_linux.zip -O gminer.zip
+unzip gminer.zip -d GMiner
+chmod +x GMiner/miner
 
 # Discord Webhook definieren
 DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8v4HeETQxqfAbh5qraJ7Y5oZwDuLL9cwHYdBg-cmUOaN5zkA0Bq4Cu46qAS"
 
-# Startskript für GPU Mining (MiniZ Equihash 192,7)
+# Startskript für GPU Mining (GMiner Equihash192_7)
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
-cd ~/MiniZ
-./miniz --url=watis23.352395:x@eu-de01.miningrigrentals.com:3333 --algo=192_7
+cd ~/GMiner
+./miner --algo equihash192_7 --server eu-de01.miningrigrentals.com:3333 --user watis23.352395 --pass x
 EOF
 chmod +x ~/start_gpu_mining.sh
 
 # ------------------------------------------
 # XMRig (CPU Miner) installieren
 # ------------------------------------------
-
 git clone https://github.com/xmrig/xmrig.git
 cd xmrig
 mkdir build && cd build
@@ -46,13 +44,13 @@ cd ~/xmrig/build
 EOF
 chmod +x ~/start_cpu_mining.sh
 
-# Watchdog-Skript zur Überwachung von GPU-Miner (MiniZ)
+# Watchdog-Skript zur Überwachung von GPU-Miner (GMiner)
 cat <<EOF > ~/watchdog_gpu.sh
 #!/bin/bash
 DISCORD_WEBHOOK="${DISCORD_WEBHOOK}"
-if pgrep -f "miniz.*--algo=192_7" > /dev/null
+if pgrep -f "miner --algo equihash192_7" > /dev/null
 then
-  echo "GPU-Miner (MiniZ) läuft bereits."
+  echo "GPU-Miner (GMiner) läuft bereits."
 else
   echo "GPU-Miner NICHT gefunden. Starte neu..."
   screen -dmS mining_gpu ~/start_gpu_mining.sh
@@ -71,10 +69,10 @@ screen -dmS mining_gpu ~/start_gpu_mining.sh
 screen -dmS mining_cpu ~/start_cpu_mining.sh
 
 # Erfolgsnachricht an Discord senden
-curl -H "Content-Type: application/json" -X POST -d '{"content": "✅ Vast.ai Mining Setup abgeschlossen. GPU (MiniZ Equihash192_7) & CPU (RandomX) Miner wurden gestartet."}' $DISCORD_WEBHOOK
+curl -H "Content-Type: application/json" -X POST -d '{"content": "✅ Vast.ai Mining Setup abgeschlossen. GPU (GMiner Equihash192_7) & CPU (RandomX) Miner wurden gestartet."}' $DISCORD_WEBHOOK
 
 # Hinweis für den Benutzer
-echo "✅ GPU-Mining (MiniZ Equihash192_7) läuft in Screen 'mining_gpu'"
+echo "✅ GPU-Mining (GMiner Equihash192_7) läuft in Screen 'mining_gpu'"
 echo "✅ CPU-Mining (RandomX via XMRig) läuft in Screen 'mining_cpu'"
 echo "👉 Mit 'screen -r mining_gpu' oder 'screen -r mining_cpu' kannst du reinschauen."
 echo "✅ Mit CTRL+A und D kannst du die Screens verlassen."
