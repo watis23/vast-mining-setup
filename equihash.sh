@@ -10,9 +10,10 @@ sudo apt install -y nvidia-cuda-toolkit
 # ------------------------------------------
 # MiniZ Miner (für Equihash 192,7)
 # ------------------------------------------
-MINIZ_VERSION="v2.2c"
-wget https://miniz.cc/releases/${MINIZ_VERSION}/miniz-linux-${MINIZ_VERSION}.tar.gz
-mkdir -p MiniZ && tar -xvzf miniz-linux-${MINIZ_VERSION}.tar.gz -C MiniZ --strip-components=1
+
+wget https://miniz.cc/releases/v2.2c/miniz-linux-v2.2c.tar.gz -O miniz.tar.gz
+mkdir -p MiniZ
+tar -xvzf miniz.tar.gz -C MiniZ --strip-components=1
 chmod +x MiniZ/miniz
 
 # Discord Webhook definieren
@@ -34,7 +35,8 @@ git clone https://github.com/xmrig/xmrig.git
 cd xmrig
 mkdir build && cd build
 cmake ..
-make -j$(nproc)
+make -j\$(nproc)
+cd ~
 
 # Startskript für CPU Mining (XMRig)
 cat <<EOF > ~/start_cpu_mining.sh
@@ -47,7 +49,7 @@ chmod +x ~/start_cpu_mining.sh
 # Watchdog-Skript zur Überwachung von GPU-Miner (MiniZ)
 cat <<EOF > ~/watchdog_gpu.sh
 #!/bin/bash
-DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8v4HeETQxqfAbh5qraJ7Y5oZwDuLL9cwHYdBg-cmUOaN5zkA0Bq4Cu46qAS"
+DISCORD_WEBHOOK="${DISCORD_WEBHOOK}"
 if pgrep -f "miniz.*--algo=192_7" > /dev/null
 then
   echo "GPU-Miner (MiniZ) läuft bereits."
