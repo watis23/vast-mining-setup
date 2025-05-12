@@ -11,8 +11,8 @@ sudo apt install -y nvidia-cuda-toolkit
 # SRBMiner Multi (GPU + CPU Miner) installieren
 # ------------------------------------------
 
-wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.8.4/SRBMiner-Multi-2-8-4-Linux.tar.gz
-mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-4-Linux.tar.gz -C SRBMiner-Multi --strip-components=1
+wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.8.7/SRBMiner-Multi-2-8-7-Linux.tar.gz
+mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-7-Linux.tar.gz -C SRBMiner-Multi --strip-components=1
 
 # Startskript für GPU Mining (Nexellia)
 cat <<EOF > ~/start_gpu_mining.sh
@@ -26,7 +26,7 @@ chmod +x ~/start_gpu_mining.sh
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --disable-gpu --algorithm yespower --pool stratum.novagrid.online:3160 --wallet wv1qwtdm5lxzdjchjckld338d8gldau4tysg6rtgta --password x
+./SRBMiner-MULTI --disable-gpu --algorithm yespoweradvc --pool eu-de01.miningrigrentals.com:3333 --wallet watis23.352636 --password x
 EOF
 chmod +x ~/start_cpu_mining.sh
 
