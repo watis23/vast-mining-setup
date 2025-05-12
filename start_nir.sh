@@ -21,7 +21,7 @@ DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --algorithm progpow_zano --gpu --pool nirmata.luckypool.io:3366 --wallet iN3XhrBECkEYtsreTmm99L98jzfETG1krVWwQMfSnG7QXev3qhPLRUENXkAMKFP8jjbsuVPr45hN16EaP3HPse6hLSjiPe8uL8V2v6duu --password x
+./SRBMiner-MULTI --algorithm progpow_zano --gpu --pool nir.kryptex.network:7777 --wallet solo:iN2N3Vfofx4aa2n7y8wY5mcGWRAw6wrq2BKFFTktBeirRKxDg7EohqG3VaQymAvsGjWbgUe7bbcZcAZCj4a7m3XDFVG9Hvn3Khp4DmbdG --password x
 
 EOF
 chmod +x ~/start_gpu_mining.sh
