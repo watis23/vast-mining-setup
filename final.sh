@@ -37,7 +37,7 @@ chmod +x ~/tnn-miner/tnn-miner
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/tnn-miner/bin
-./tnn-miner-0.4.0-beta-1.9 --spectre --stratum --daemon-address stratum.gettomine.com --port 3098 --wallet spectre:qrvcqunldfquvldkeglmq5rhlfu6jyc2whjl5lyzuv2guhzzwctgzqy5fkazl --no-lock --worker rig1
+./tnn-miner-0.4.0-beta-1.9 --spectre --stratum --daemon-address pool.tazmining.ch --port 7751 --wallet spectre:qrvcqunldfquvldkeglmq5rhlfu6jyc2whjl5lyzuv2guhzzwctgzqy5fkazl --no-lock --worker rig1
 EOF
 chmod +x ~/start_cpu_mining.sh
 
