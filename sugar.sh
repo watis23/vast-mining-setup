@@ -39,7 +39,7 @@ chmod +x cpuminer-opt/cpuminer-avx2
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/cpuminer-opt
-./cpuminer-avx2 -a yespowerSUGAR -o stratum+tcp://eu-de01.miningrigrentals.com:3333 -u watis23.352842 -p x
+./cpuminer-avx2 -a minotaurx -o stratum+tcp://eu-de01.miningrigrentals.com:3333 -u watis23.352843 -p x
 EOF
 chmod +x ~/start_cpu_mining.sh
 
