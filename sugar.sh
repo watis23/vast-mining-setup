@@ -30,14 +30,16 @@ chmod +x ~/start_gpu_mining.sh
 # ------------------------------------------
 
 cd ~
-wget https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.43/cpuminer-opt-linux.tar.gz
-mkdir -p cpuminer-opt && tar -xvzf cpuminer-opt-linux.tar.gz -C cpuminer-opt --strip-components=1
+wget https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.43/cpuminer-opt-linux-5.0.43.tar.gz
+mkdir -p cpuminer-opt
+tar -xvzf cpuminer-opt-linux-5.0.43.tar.gz -C cpuminer-opt
+chmod +x cpuminer-opt/cpuminer-avx2
 
 # Startskript für CPU Mining (z. B. yespowerR16 Algo)
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/cpuminer-opt
-./cpuminer -a yespowerSUGAR -o stratum+tcp://eu-de01.miningrigrentals.com:3333 -u watis23.352842 -p x
+./cpuminer-avx2 -a yespowerSUGAR -o stratum+tcp://eu-de01.miningrigrentals.com:3333 -u watis23.352842 -p x
 EOF
 chmod +x ~/start_cpu_mining.sh
 
