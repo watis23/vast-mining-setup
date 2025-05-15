@@ -21,7 +21,7 @@ DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --algorithm nxlhash --gpu --pool eu.mining4people.com:3356 --wallet nexellia:qqdqky7ktz63zvrnj0gtpwq7te3x02324a9jasa3xk9wk8v7vuf8q6hw9ka6r --password vastworker01
+./SRBMiner-MULTI --algorithm cryptixhash --gpu --pool stratum-eu.rplant.xyz:7141 --wallet cryptix:qrq59r8pa48dm4a3vjwqnrq2y5squwu2agkcp9vzypq0ngd9hp24w5exahhxh --password vastworker01
 EOF
 chmod +x ~/start_gpu_mining.sh
 
