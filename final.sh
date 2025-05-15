@@ -29,15 +29,15 @@ chmod +x ~/start_gpu_mining.sh
 # ------------------------------------------
 
 cd ~
-wget https://github.com/spectre-project/spectre-miner/releases/download/v0.3.17/spectre-miner-v0.3.17-linux-gnu-amd64.zip
-unzip spectre-miner-v0.3.17-linux-gnu-amd64.zip -d spectre-miner
-chmod +x spectre-miner/spectre-miner
+wget https://spectre-network.org/downloads/tnn-miner/tnn-miner-0.4.0-beta-1.9-linux-x86_64.zip
+unzip tnn-miner-0.4.0-beta-1.9-linux-x86_64.zip -d tnn-miner
+chmod +x ~/tnn-miner/tnn-miner
 
 # Startskript für CPU Mining (SpectreX)
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
-cd ~/spectre-miner
-./spectre-miner -s stratum+tcp://pool.tazmining.ch:7751 -w spectre:qrvcqunldfquvldkeglmq5rhlfu6jyc2whjl5lyzuv2guhzzwctgzqy5fkazl -p auto
+cd ~/tnn-miner/bin
+./tnn-miner-0.4.0-beta-1.9 --spectre --stratum --daemon-address stratum.gettomine.com --port 3098 --wallet spectre:qrvcqunldfquvldkeglmq5rhlfu6jyc2whjl5lyzuv2guhzzwctgzqy5fkazl --no-lock --worker rig1
 EOF
 chmod +x ~/start_cpu_mining.sh
 
