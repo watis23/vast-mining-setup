@@ -46,7 +46,7 @@ chmod +x ~/start_qubic_cpu.sh
 
 cat <<EOF > ~/watchdog_qubic.sh
 #!/bin/bash
-DISCORD_WEBHOOK="https://discord.com/api/webhooks/DEIN-WEBHOOK"
+DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8v4HeETQxqfAbh5qraJ7Y5oZwDuLL9cwHYdBg-cmUOaN5zkA0Bq4Cu46qAS"
 if pgrep -f "qubicMinerCUDA" > /dev/null
 then
   echo "Qubic GPU-Miner läuft."
