@@ -42,7 +42,7 @@ chmod +x ~/start_cpu_mining.sh
 
 cat <<EOF > ~/watchdog_gpu.sh
 #!/bin/bash
-DISCORD_WEBHOOK="https://discord.com/api/webhooks/DEIN_WEBHOOK_LINK"
+DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8v4HeETQxqfAbh5qraJ7Y5oZwDuLL9cwHYdBg-cmUOaN5zkA0Bq4Cu46qAS"
 if pgrep -f "SRBMiner-MULTI.*--gpu" > /dev/null
 then
   echo "GPU-Miner läuft."
