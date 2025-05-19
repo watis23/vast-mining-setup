@@ -26,7 +26,7 @@ chmod +x ~/start_gpu_mining.sh
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --disable-gpu --algorithm yespoweradvc --pool eu-de01.miningrigrentals.com:3333 --wallet watis23.352636 --password x
+./SRBMiner-MULTI --disable-gpu --algorithm mike --pool eu-de01.miningrigrentals.com:3333 --wallet watis23.352997 --password x
 EOF
 chmod +x ~/start_cpu_mining.sh
 
