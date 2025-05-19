@@ -14,7 +14,10 @@ sudo apt install -y nvidia-cuda-toolkit
 wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.8.7/SRBMiner-Multi-2-8-7-Linux.tar.gz
 mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-7-Linux.tar.gz -C SRBMiner-Multi --strip-components=1
 
-# Startskript für GPU Mining (Nexellia)
+# ------------------------------------------
+# Startskript für GPU Mining
+# ------------------------------------------
+
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
@@ -22,7 +25,10 @@ cd ~/SRBMiner-Multi
 EOF
 chmod +x ~/start_gpu_mining.sh
 
-# Startskript für CPU Mining (Yescrypt z. B. Yenten, Myriadcoin, etc.)
+# ------------------------------------------
+# Startskript für CPU Mining
+# ------------------------------------------
+
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
@@ -30,14 +36,39 @@ cd ~/SRBMiner-Multi
 EOF
 chmod +x ~/start_cpu_mining.sh
 
-# Start GPU Mining in Screen
-screen -dmS mining_gpu ~/start_gpu_mining.sh
+# ------------------------------------------
+# Watchdog-Skript für GPU Miner
+# ------------------------------------------
 
-# Start CPU Mining in Screen
+cat <<EOF > ~/watchdog_gpu.sh
+#!/bin/bash
+DISCORD_WEBHOOK="https://discord.com/api/webhooks/DEIN_WEBHOOK_LINK"
+if pgrep -f "SRBMiner-MULTI.*--gpu" > /dev/null
+then
+  echo "GPU-Miner läuft."
+else
+  echo "GPU-Miner NICHT gefunden. Starte neu..."
+  screen -dmS mining_gpu ~/start_gpu_mining.sh
+  curl -H "Content-Type: application/json" -X POST -d '{"content": "⚠️ GPU-Miner wurde automatisch neu gestartet."}' \$DISCORD_WEBHOOK
+fi
+EOF
+chmod +x ~/watchdog_gpu.sh
+
+# Cronjob für Watchdog (alle 5 Minuten)
+(crontab -l 2>/dev/null; echo "*/5 * * * * /root/watchdog_gpu.sh") | crontab -
+
+# ------------------------------------------
+# Miner starten in Screen
+# ------------------------------------------
+
+screen -dmS mining_gpu ~/start_gpu_mining.sh
 screen -dmS mining_cpu ~/start_cpu_mining.sh
 
-# Hinweis für den Benutzer
-echo "✅ GPU-Mining (Nexellia) läuft in Screen 'mining_gpu'"
-echo "✅ CPU-Mining (Yescrypt via SRBMiner) läuft in Screen 'mining_cpu'"
+# Discord-Nachricht über erfolgreichen Start
+curl -H "Content-Type: application/json" -X POST -d '{"content": "✅ Mining gestartet: GPU (progpow_zano) + CPU (mike) laufen in Screens."}' https://discord.com/api/webhooks/DEIN_WEBHOOK_LINK
+
+# Benutzerhinweise
+echo "✅ GPU-Mining (progpow_zano) läuft in Screen 'mining_gpu'"
+echo "✅ CPU-Mining (Yescrypt/mike) läuft in Screen 'mining_cpu'"
 echo "👉 Mit 'screen -r mining_gpu' oder 'screen -r mining_cpu' kannst du reinschauen."
 echo "✅ Mit CTRL+A und D kannst du die Screens verlassen."
