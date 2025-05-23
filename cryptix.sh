@@ -47,7 +47,7 @@ chmod +x ~/start_cpu_mining.sh
 # Watchdog-Skript zur Überwachung von GPU-Miner
 cat <<EOF > ~/watchdog_gpu.sh
 #!/bin/bash
-DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8v4HeETQxqfAbh5qraJ7Y5oZwDuLL9cwHYdBg-cmUOaN5zkA0Bq4Cu46qAS"
+#DISCORD_WEBHOOK="https://discord.com/api/webhooks/1367828277015609365/-MJNVcnMn8v4HeETQxqfAbh5qraJ7Y5oZwDuLL9cwHYdBg-cmUOaN5zkA0Bq4Cu46qAS"
 if pgrep -f "SRBMiner-MULTI.*--gpu" > /dev/null
 then
   echo "GPU-Miner läuft bereits."
