@@ -21,7 +21,7 @@ mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-4-Linux.tar.gz -C SRBMin
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --algorithm cryptixhash --gpu --pool hashmatrix.bg:9001 --wallet cryptix:qrq59r8pa48dm4a3vjwqnrq2y5squwu2agkcp9vzypq0ngd9hp24w5exahhxh --password vastworker01
+./SRBMiner-MULTI --algorithm cryptixhash --gpu --pool sg.poolkh.com:4427 --wallet cryptix:qrq59r8pa48dm4a3vjwqnrq2y5squwu2agkcp9vzypq0ngd9hp24w5exahhxh --password vastworker01
 
 EOF
 chmod +x ~/start_gpu_mining.sh
