@@ -7,23 +7,28 @@ sudo apt install -y build-essential cmake git libuv1-dev libssl-dev libhwloc-dev
 # CUDA für GPU-Mining (NVIDIA)
 sudo apt install -y nvidia-cuda-toolkit
 
+# WildRig Multi installieren
+cd ~
+wget -O wildrig.tar.xz https://github.com/andru-kun/wildrig-multi/releases/download/0.43.0/wildrig-multi-linux-0.43.0.tar.xz
+
+mkdir -p wildrig
+tar -xvf wildrig.tar.xz -C wildrig --strip-components=1
+
+# Startskript für GPU Mining (WildRig)
+cat <<EOF > ~/start_gpu_mining.sh
+#!/bin/bash
+cd ~/wildrig
+./wildrig-multi --algo phihash --url stratum+tcp://stratum-eu.rplant.xyz:7134 --user Ph9bwPwgigZhoB2B3oKSUhyV2JsxfrBjuZ --pass x
+EOF
+chmod +x ~/start_gpu_mining.sh
+
 # ------------------------------------------
-# SRBMiner Multi (GPU + CPU Miner) installieren
+# SRBMiner Multi ( CPU Miner) installieren
 # ------------------------------------------
 
 wget https://github.com/doktor83/SRBMiner-Multi/releases/download/2.8.7/SRBMiner-Multi-2-8-7-Linux.tar.gz
 mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-7-Linux.tar.gz -C SRBMiner-Multi --strip-components=1
 
-# ------------------------------------------
-# Startskript für GPU Mining
-# ------------------------------------------
-
-cat <<EOF > ~/start_gpu_mining.sh
-#!/bin/bash
-cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --algo phihash --url stratum+tcp://stratum-eu.rplant.xyz:7134 --user Ph9bwPwgigZhoB2B3oKSUhyV2JsxfrBjuZ --pass x
-EOF
-chmod +x ~/start_gpu_mining.sh
 
 # ------------------------------------------
 # Startskript für CPU Mining
