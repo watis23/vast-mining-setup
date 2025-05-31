@@ -37,7 +37,7 @@ mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-7-Linux.tar.gz -C SRBMin
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --disable-gpu --pool corecoin.luckypool.io:3118 --wallet solo:cb36da5291136005e804b7ac8f368f236b2d83b533a5 --password x
+./SRBMiner-MULTI --algorithm randomy --disable-gpu --pool corecoin.luckypool.io:3118 --wallet solo:cb36da5291136005e804b7ac8f368f236b2d83b533a5 --password x
 EOF
 chmod +x ~/start_cpu_mining.sh
 
