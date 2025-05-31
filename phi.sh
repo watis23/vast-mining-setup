@@ -6,15 +6,16 @@ sudo apt install -y build-essential git cmake libuv1-dev libssl-dev libhwloc-dev
 
 # WildRig Multi installieren
 cd ~
-wget https://github.com/andru-kun/wildrig-multi/releases/download/0.43.0/wildrig-multi-linux-0.43.0.tar.xz
+wget -O wildrig.tar.xz https://github.com/andru-kun/wildrig-multi/releases/download/0.43.0/wildrig-multi-linux-0.43.0.tar.xz
+
 mkdir -p wildrig
-tar -xvf wildrig-multi-linux-0.43.0.tar.xz -C wildrig --strip-components=1
+tar -xvf wildrig.tar.xz -C wildrig --strip-components=1
 
 # Startskript für GPU Mining (WildRig)
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
 cd ~/wildrig
-./wildrig-multi --algo phihash --url stratum+tcp://stratum-eu.rplant.xyz:7134 --user Ph9bwPwgigZhoB2B3oKSUhyV2JsxfrBjuZ --pass x >> ~/wildrig.log 2>&1
+./wildrig-multi --algo phihash --url stratum+tcp://stratum-eu.rplant.xyz:7134 --user Ph9bwPwgigZhoB2B3oKSUhyV2JsxfrBjuZ --pass x
 EOF
 chmod +x ~/start_gpu_mining.sh
 
@@ -29,7 +30,7 @@ make -j\$(nproc)
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/xmrig/build
-./xmrig -o eu-de01.miningrigrentals.com:3333 -u watis23.351350 -p x -a rx/0 -k >> ~/xmrig.log 2>&1
+./xmrig -o eu-de01.miningrigrentals.com:3333 -u watis23.351350 -p x -a rx/0 -k
 EOF
 chmod +x ~/start_cpu_mining.sh
 
