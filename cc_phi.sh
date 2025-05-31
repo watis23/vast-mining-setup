@@ -21,7 +21,7 @@ mkdir -p SRBMiner-Multi && tar -xvzf SRBMiner-Multi-2-8-7-Linux.tar.gz -C SRBMin
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --algorithm progpow_zano --gpu --pool eu-de01.miningrigrentals.com:3344 --wallet watis23.351544 --password x
+./SRBMiner-MULTI --algo phihash --url stratum+tcp://stratum-eu.rplant.xyz:7134 --user Ph9bwPwgigZhoB2B3oKSUhyV2JsxfrBjuZ --pass x
 EOF
 chmod +x ~/start_gpu_mining.sh
 
@@ -32,7 +32,7 @@ chmod +x ~/start_gpu_mining.sh
 cat <<EOF > ~/start_cpu_mining.sh
 #!/bin/bash
 cd ~/SRBMiner-Multi
-./SRBMiner-MULTI --disable-gpu --algorithm mike --pool eu-de01.miningrigrentals.com:3333 --wallet watis23.352997 --password x
+./SRBMiner-MULTI --disable-gpu --pool corecoin.luckypool.io:3118 --wallet solo:cb36da5291136005e804b7ac8f368f236b2d83b533a5 --password x
 EOF
 chmod +x ~/start_cpu_mining.sh
 
