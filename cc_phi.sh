@@ -7,19 +7,36 @@ sudo apt install -y build-essential cmake git libuv1-dev libssl-dev libhwloc-dev
 # CUDA für GPU-Mining (NVIDIA)
 sudo apt install -y nvidia-cuda-toolkit
 
-# WildRig Multi installieren
+# WildRig Multi installieren (robust + getestet)
 cd ~
 wget -O wildrig.tar.xz https://github.com/andru-kun/wildrig-multi/releases/download/0.43.0/wildrig-multi-linux-0.43.0.tar.xz
 
+# Test: Ist es wirklich eine .tar.xz-Datei?
+if ! file wildrig.tar.xz | grep -q 'XZ compressed'; then
+    echo "❌ Download fehlgeschlagen oder falsches Format."
+    exit 1
+fi
+
+# Entpacken (ohne strip-components)
 mkdir -p wildrig
-tar -xvf wildrig.tar.xz -C wildrig --strip-components=1
+tar -xf wildrig.tar.xz -C wildrig
+
+# Umbenennen falls nötig (optional)
+chmod +x wildrig/wildrig-multi*
+
+# Prüfen, ob die Binary da ist
+if ! ls wildrig/wildrig-multi* &>/dev/null; then
+    echo "❌ WildRig-Binary nicht gefunden. Entpacken fehlgeschlagen."
+    exit 1
+fi
 
 # Startskript für GPU Mining (WildRig)
 cat <<EOF > ~/start_gpu_mining.sh
 #!/bin/bash
 cd ~/wildrig
-./wildrig-multi --algo phihash --url stratum+tcp://stratum-eu.rplant.xyz:7134 --user Ph9bwPwgigZhoB2B3oKSUhyV2JsxfrBjuZ --pass x
+./wildrig-multi-linux --algo skydoge --url stratum+tcp://europe.mining-dutch.nl:9977 --user wat_is.worker1 --pass x >> ~/wildrig.log 2>&1
 EOF
+
 chmod +x ~/start_gpu_mining.sh
 
 # ------------------------------------------
